@@ -23,6 +23,13 @@ if (!$pdo) {
     <?php include 'navbar.php'; ?>
     
     <div class="container">
+        <?php
+        if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
+        }
+        ?>
+
         <!-- Banner de bienvenida -->
         <section class="hero">
             <h1>🐾 Bienvenido a PetsBook</h1>

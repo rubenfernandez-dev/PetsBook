@@ -4,19 +4,34 @@
  * Utiliza PDO para conexiones seguras con MySQL
  */
 
-// Configuración de la base de datos
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'proyecto_final');
-define('DB_USER', 'root');
-define('DB_PASS', 'naiara17adrian12');
-define('DB_CHARSET', 'utf8mb4');
+// Configuración de la base de datos (sin secretos en el repositorio)
+$dbConfig = [
+    'host' => getenv('DB_HOST') ?: 'localhost',
+    'port' => getenv('DB_PORT') ?: '3306',
+    'name' => getenv('DB_NAME') ?: 'proyecto_final',
+    'user' => getenv('DB_USER') ?: 'root',
+    'pass' => getenv('DB_PASS') ?: '',
+    'charset' => getenv('DB_CHARSET') ?: 'utf8mb4',
+];
+
+// Configuración local privada (no versionada)
+$localConfigFile = __DIR__ . '/config.local.php';
+if (file_exists($localConfigFile)) {
+    $localConfig = require $localConfigFile;
+    if (is_array($localConfig)) {
+        $dbConfig = array_merge($dbConfig, $localConfig);
+    }
+}
 
 // Variable global de conexión PDO
 $pdo = null;
 
 try {
     // Crear DSN (Data Source Name)
-    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+    $dsn = "mysql:host=" . $dbConfig['host']
+        . ";port=" . $dbConfig['port']
+        . ";dbname=" . $dbConfig['name']
+        . ";charset=" . $dbConfig['charset'];
     
     // Opciones de PDO
     $opciones = [
@@ -26,7 +41,7 @@ try {
     ];
     
     // Crear instancia de PDO
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, $opciones);
+    $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['pass'], $opciones);
     
 } catch (PDOException $e) {
     // Capturar errores de conexión

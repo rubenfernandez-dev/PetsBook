@@ -62,14 +62,7 @@ if (!$pdo) {
                                     <span class="noticia-autor">✍️ <?php echo htmlspecialchars($noticia['autor']); ?></span>
                                 </div>
                                 <div class="noticia-texto">
-                                    <?php 
-                                    $texto = htmlspecialchars($noticia['texto']);
-                                    if (strlen($texto) > 300) {
-                                        echo substr($texto, 0, 300) . '...';
-                                    } else {
-                                        echo $texto;
-                                    }
-                                    ?>
+                                    <?php echo nl2br(htmlspecialchars($noticia['texto'])); ?>
                                 </div>
                             </div>
                         </article>

@@ -21,6 +21,8 @@ if (isset($_SESSION['idUser'])) {
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
+
     <div class="container">
         <div class="login-container">
             <h1>Iniciar Sesión</h1>

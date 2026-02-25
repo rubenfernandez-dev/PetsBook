@@ -82,6 +82,7 @@ try {
     // Limpiar datos temporales
     unset($_SESSION['login_usuario']);
     unset($_SESSION['error']);
+    $_SESSION['success'] = 'Inicio de sesión exitoso. Bienvenido/a a PetsBook';
     
     // Redirigir según el rol del usuario
     if ($user['rol'] === 'admin') {

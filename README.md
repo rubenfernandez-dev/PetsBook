@@ -135,15 +135,20 @@ PetsBook/
    # O importar database.sql desde phpMyAdmin
    ```
 
-3. **Configurar la conexión**
-   - Abrir `conexion.php`
-   - Verificar/modificar las credenciales:
+3. **Configurar la conexión (sin exponer claves)**
+   - Copiar `config.local.example.php` como `config.local.php`
+   - Editar `config.local.php` con tus credenciales locales:
    ```php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'proyecto_final');
-   define('DB_USER', 'root');
-   define('DB_PASS', '');
+   return [
+       'host' => 'localhost',
+       'port' => '3306',
+       'name' => 'proyecto_final',
+       'user' => 'root',
+       'pass' => 'TU_PASSWORD_LOCAL',
+       'charset' => 'utf8mb4',
+   ];
    ```
+   - `config.local.php` no se sube al repositorio (`.gitignore`)
 
 4. **Crear carpeta de imágenes**
    ```bash

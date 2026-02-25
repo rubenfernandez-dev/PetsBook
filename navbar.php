@@ -13,6 +13,12 @@ if (session_status() === PHP_SESSION_NONE) {
 $logueado = isset($_SESSION['idUser']);
 $rol = $_SESSION['rol'] ?? 'visitante';
 $nombre_usuario = $_SESSION['nombre'] ?? '';
+$currentPage = basename($_SERVER['PHP_SELF']);
+
+function nav_active(array $pages): string {
+    global $currentPage;
+    return in_array($currentPage, $pages, true) ? ' active' : '';
+}
 ?>
 <nav class="navbar">
     <div class="navbar-container">
@@ -21,19 +27,19 @@ $nombre_usuario = $_SESSION['nombre'] ?? '';
         </div>
         
         <ul class="navbar-menu">
-            <li><a href="<?php echo $logueado ? '/PetsBook/index.php' : '/PetsBook/index.php'; ?>" class="nav-link">Inicio</a></li>
-            <li><a href="<?php echo $logueado ? '/PetsBook/noticias.php' : '/PetsBook/noticias.php'; ?>" class="nav-link">Noticias</a></li>
+            <li><a href="<?php echo $logueado ? '/PetsBook/index.php' : '/PetsBook/index.php'; ?>" class="nav-link<?php echo nav_active(['index.php']); ?>">Inicio</a></li>
+            <li><a href="<?php echo $logueado ? '/PetsBook/noticias.php' : '/PetsBook/noticias.php'; ?>" class="nav-link<?php echo nav_active(['noticias.php']); ?>">Noticias</a></li>
             
             <?php if (!$logueado): ?>
                 <!-- Menú para visitantes -->
-                <li><a href="/PetsBook/registro.php" class="nav-link">Registro</a></li>
-                <li><a href="/PetsBook/login.php" class="nav-link btn-login">Iniciar Sesión</a></li>
+                <li><a href="/PetsBook/registro.php" class="nav-link<?php echo nav_active(['registro.php']); ?>">Registro</a></li>
+                <li><a href="/PetsBook/login.php" class="nav-link btn-login<?php echo nav_active(['login.php']); ?>">Iniciar Sesión</a></li>
                 
             <?php elseif ($rol === 'admin'): ?>
                 <!-- Menú para administradores -->
-                <li><a href="/PetsBook/citaciones/citaciones.php" class="nav-link">Citas</a></li>
+                <li><a href="/PetsBook/citaciones/citaciones.php" class="nav-link<?php echo nav_active(['citaciones.php', 'citas-administracion.php']); ?>">Citas</a></li>
                 <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">Administración</a>
+                    <a href="#" class="nav-link dropdown-toggle<?php echo nav_active(['usuarios-administracion.php', 'citas-administracion.php', 'noticias-administracion.php']); ?>">Administración</a>
                     <ul class="dropdown-menu">
                         <li><a href="/PetsBook/admin/usuarios-administracion.php">Usuarios</a></li>
                         <li><a href="/PetsBook/admin/citas-administracion.php">Citas</a></li>
@@ -41,7 +47,7 @@ $nombre_usuario = $_SESSION['nombre'] ?? '';
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">👤 <?php echo htmlspecialchars($nombre_usuario); ?></a>
+                    <a href="#" class="nav-link dropdown-toggle<?php echo nav_active(['perfil.php', 'actualizar.php']); ?>">👤 <?php echo htmlspecialchars($nombre_usuario); ?></a>
                     <ul class="dropdown-menu">
                         <li><a href="/PetsBook/usuarios/perfil.php">Mi Perfil</a></li>
                         <li><a href="/PetsBook/logout.php">Cerrar Sesión</a></li>
@@ -50,9 +56,9 @@ $nombre_usuario = $_SESSION['nombre'] ?? '';
                 
             <?php else: ?>
                 <!-- Menú para usuarios normales -->
-                <li><a href="/PetsBook/citaciones/citaciones.php" class="nav-link">Citas</a></li>
+                <li><a href="/PetsBook/citaciones/citaciones.php" class="nav-link<?php echo nav_active(['citaciones.php']); ?>">Citas</a></li>
                 <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">👤 <?php echo htmlspecialchars($nombre_usuario); ?></a>
+                    <a href="#" class="nav-link dropdown-toggle<?php echo nav_active(['perfil.php', 'actualizar.php']); ?>">👤 <?php echo htmlspecialchars($nombre_usuario); ?></a>
                     <ul class="dropdown-menu">
                         <li><a href="/PetsBook/usuarios/perfil.php">Mi Perfil</a></li>
                         <li><a href="/PetsBook/logout.php">Cerrar Sesión</a></li>

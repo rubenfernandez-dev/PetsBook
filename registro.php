@@ -15,6 +15,8 @@ require_once 'cookies.php';
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
+
     <div class="container">
         <div class="registro-container">
             <h1>Crear Cuenta</h1>
